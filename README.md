@@ -1,6 +1,6 @@
-# Monopoly Simulation - Split Files
+# Monopoly Simulation
 
-This project has been split into separate modules for better organization:
+Simplified Monte-Carlo simulator of Monopoly games.
 
 ## Files Structure
 
@@ -43,7 +43,3 @@ from monte_carlo_runner import run_simulation, print_results
 results = run_simulation(n_games=100, max_turns=100)
 print_results(results)
 ```
-
-## Original File
-
-The original `monopoly_simulation(3).py` file is preserved for reference.

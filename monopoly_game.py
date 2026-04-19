@@ -42,141 +42,148 @@ class MonopolyGame:
     def _apply_chance_card(self, card, player):
         player_idx = self.players.index(player)
 
-        if card == "advance_go":
-            self.move_to(player, 0, collect_go=True)
+        match card:
+            case "advance_go":
+                self.move_to(player, 0, collect_go=True)
 
-        elif card == "advance_illinois":
-            self.move_to(player, 24, collect_go=True)
+            case "advance_illinois":
+                self.move_to(player, 24, collect_go=True)
 
-        elif card == "advance_stcharles":
-            self.move_to(player, 11, collect_go=True)
+            case "advance_stcharles":
+                self.move_to(player, 11, collect_go=True)
 
-        elif card == "advance_reading_railroad":
-            self.move_to(player, 5, collect_go=True)
+            case "advance_reading_railroad":
+                self.move_to(player, 5, collect_go=True)
 
-        elif card == "advance_boardwalk":
-            self.move_to(player, 39, collect_go=True)
+            case "advance_boardwalk":
+                self.move_to(player, 39, collect_go=True)
 
-        elif card == "advance_nearest_railroad":
-            nearest = min(RAILROADS, key=lambda r: (r - player.position) % 40)
-            if nearest < player.position:
-                player.cash += 200  # passed GO
-            player.position = nearest
-            if nearest in self.ownership:
-                owner_idx = self.ownership[nearest]
-                if owner_idx != player_idx:
-                    owner = self.players[owner_idx]
-                    rr_count = len(owner.railroads_owned)
-                    base_rent = [0, 25, 50, 100, 200][rr_count]
-                    rent = base_rent * 2
-                    self.pay(player, rent)
-                    owner.cash += rent
-            else:
-                # Unowned — player may buy at normal price
-                self.handle_purchase_or_rent(player, nearest)
+            case "advance_nearest_railroad":
+                nearest = min(RAILROADS, key=lambda r: (r - player.position) % 40)
+                if nearest < player.position:
+                    player.cash += 200  # passed GO
+                player.position = nearest
+                if nearest in self.ownership:
+                    owner_idx = self.ownership[nearest]
+                    if owner_idx != player_idx:
+                        owner = self.players[owner_idx]
+                        rr_count = len(owner.railroads_owned)
+                        base_rent = [0, 25, 50, 100, 200][rr_count]
+                        rent = base_rent * 2
+                        self.pay(player, rent)
+                        owner.cash += rent
+                else:
+                    # Unowned — player may buy at normal price
+                    self.handle_purchase_or_rent(player, nearest)
 
-        elif card == "advance_nearest_utility":
-            # FIX: if owned, always pay 10x dice roll (not the standard 4x/10x formula)
-            nearest = min(UTILITIES, key=lambda u: (u - player.position) % 40)
-            if nearest < player.position:
-                player.cash += 200  # passed GO
-            player.position = nearest
-            if nearest in self.ownership:
-                owner_idx = self.ownership[nearest]
-                if owner_idx != player_idx:
-                    owner = self.players[owner_idx]
-                    d1, d2 = self.roll_dice()
-                    rent = (d1 + d2) * 10   # always 10x when moved by Chance
-                    self.pay(player, rent)
-                    owner.cash += rent
-            else:
-                self.handle_purchase_or_rent(player, nearest)
+            case "advance_nearest_utility":
+                nearest = min(UTILITIES, key=lambda u: (u - player.position) % 40)
+                if nearest < player.position:
+                    player.cash += 200  # passed GO
+                player.position = nearest
+                if nearest in self.ownership:
+                    owner_idx = self.ownership[nearest]
+                    if owner_idx != player_idx:
+                        owner = self.players[owner_idx]
+                        d1, d2 = self.roll_dice()
+                        rent = (d1 + d2) * 10   # always 10x when moved by Chance
+                        self.pay(player, rent)
+                        owner.cash += rent
+                else:
+                    self.handle_purchase_or_rent(player, nearest)
 
-        elif card == "bank_dividend_50":
-            player.cash += 50
+            case "bank_dividend_50":
+                player.cash += 50
 
-        elif card == "get_out_of_jail_free":
-            player.get_out_of_jail_cards += 1
+            case "get_out_of_jail_free":
+                player.get_out_of_jail_cards += 1
 
-        elif card == "go_back_3":
-            player.position = (player.position - 3) % 40
-            self.land_on(player)
+            case "go_back_3":
+                player.position = (player.position - 3) % 40
+                self.land_on(player)
 
-        elif card == "go_to_jail":
-            self.send_to_jail(player)
+            case "go_to_jail":
+                self.send_to_jail(player)
 
-        elif card == "speeding_fine_15":
-            self.pay(player, 15)
+            case "speeding_fine_15":
+                self.pay(player, 15)
 
-        elif card == "chance_repairs":
-            # $25 per house, $100 per hotel
-            cost = player.total_houses() * 25 + player.total_hotels() * 100
-            self.pay(player, cost)
+            case "chance_repairs":
+                # $25 per house, $100 per hotel
+                cost = player.total_houses() * 25 + player.total_hotels() * 100
+                self.pay(player, cost)
 
-        elif card == "chairman_of_board":
-            # Pay $50 to EACH other player
-            for other in self.players:
-                if other is not player and not other.bankrupt:
-                    self.pay(player, 50)
-                    other.cash += 50
+            case "chairman_of_board":
+                # Pay $50 to EACH other player
+                for other in self.players:
+                    if other is not player and not other.bankrupt:
+                        self.pay(player, 50)
+                        other.cash += 50
 
-        elif card == "building_loan_150":
-            player.cash += 150
+            case "building_loan_150":
+                player.cash += 150
+
+            case _:
+                pass
 
     def _apply_community_card(self, card, player):
-        if card == "advance_go":
-            self.move_to(player, 0, collect_go=True)
+        match card:
+            case "advance_go":
+                self.move_to(player, 0, collect_go=True)
 
-        elif card == "bank_error_200":
-            player.cash += 200
+            case "bank_error_200":
+                player.cash += 200
 
-        elif card == "doctors_fee_50":
-            self.pay(player, 50)
+            case "doctors_fee_50":
+                self.pay(player, 50)
 
-        elif card == "stock_sale_50":
-            player.cash += 50
+            case "stock_sale_50":
+                player.cash += 50
 
-        elif card == "get_out_of_jail_free":
-            player.get_out_of_jail_cards += 1
+            case "get_out_of_jail_free":
+                player.get_out_of_jail_cards += 1
 
-        elif card == "go_to_jail":
-            self.send_to_jail(player)
+            case "go_to_jail":
+                self.send_to_jail(player)
 
-        elif card == "holiday_fund_100":
-            player.cash += 100
+            case "holiday_fund_100":
+                player.cash += 100
 
-        elif card == "income_tax_refund_20":
-            player.cash += 20
+            case "income_tax_refund_20":
+                player.cash += 20
 
-        elif card == "birthday_10":
-            # Collect $10 from EACH other player
-            for other in self.players:
-                if other is not player and not other.bankrupt:
-                    self.pay(other, 10)
-                    player.cash += 10
+            case "birthday_10":
+                # Collect $10 from EACH other player
+                for other in self.players:
+                    if other is not player and not other.bankrupt:
+                        self.pay(other, 10)
+                        player.cash += 10
 
-        elif card == "life_insurance_100":
-            player.cash += 100
+            case "life_insurance_100":
+                player.cash += 100
 
-        elif card == "hospital_fees_100":
-            self.pay(player, 100)
+            case "hospital_fees_100":
+                self.pay(player, 100)
 
-        elif card == "school_fees_50":
-            self.pay(player, 50)
+            case "school_fees_50":
+                self.pay(player, 50)
 
-        elif card == "consultancy_fee_25":
-            player.cash += 25
+            case "consultancy_fee_25":
+                player.cash += 25
 
-        elif card == "community_repairs":
-            # $40 per house, $115 per hotel (different from Chance repairs)
-            cost = player.total_houses() * 40 + player.total_hotels() * 115
-            self.pay(player, cost)
+            case "community_repairs":
+                # $40 per house, $115 per hotel (different from Chance repairs)
+                cost = player.total_houses() * 40 + player.total_hotels() * 115
+                self.pay(player, cost)
 
-        elif card == "beauty_contest_10":
-            player.cash += 10
+            case "beauty_contest_10":
+                player.cash += 10
 
-        elif card == "inherit_100":
-            player.cash += 100
+            case "inherit_100":
+                player.cash += 100
+
+            case _:
+                pass
 
     # ── Movement ──────────────────────────────
 
@@ -204,87 +211,92 @@ class MonopolyGame:
         pos = player.position
         square = SPECIAL_SQUARES.get(pos, "property")
 
-        if square == "GO":
-            player.cash += 200
+        match square:
+            case "GO":
+                player.cash += 200
 
-        elif square == "INCOME_TAX":
-            flat_tax = 200
-            pct_tax = int(player.net_worth() * 0.10)
-            self.pay(player, min(flat_tax, pct_tax))
+            case "INCOME_TAX":
+                flat_tax = 200
+                pct_tax = int(player.net_worth() * 0.10)
+                self.pay(player, min(flat_tax, pct_tax))
 
-        elif square == "LUXURY_TAX":
-            self.pay(player, 75)
+            case "LUXURY_TAX":
+                self.pay(player, 75)
 
-        elif square == "GO_TO_JAIL":
-            self.send_to_jail(player)
+            case "GO_TO_JAIL":
+                self.send_to_jail(player)
 
-        elif square == "CHANCE":
-            self.draw_chance(player)
+            case "CHANCE":
+                self.draw_chance(player)
 
-        elif square == "COMMUNITY_CHEST":
-            self.draw_community(player)
+            case "COMMUNITY_CHEST":
+                self.draw_community(player)
 
-        elif square in ("JAIL", "FREE_PARKING"):
-            pass
+            case "JAIL" | "FREE_PARKING":
+                pass
 
-        else:
-            self.handle_purchase_or_rent(player, pos)
+            case _:
+                self.handle_purchase_or_rent(player, pos)
 
     def handle_purchase_or_rent(self, player, pos):
         player_idx = self.players.index(player)
 
-        if pos in RAILROADS:
-            price = 200
-            if pos not in self.ownership:
-                if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
-                    player.cash -= price
-                    self.ownership[pos] = player_idx
-                    player.railroads_owned.append(pos)
-            else:
-                owner_idx = self.ownership[pos]
-                if owner_idx != player_idx:
-                    owner = self.players[owner_idx]
-                    rr_count = len(owner.railroads_owned)
-                    rent = [0, 25, 50, 100, 200][rr_count]
-                    self.pay(player, rent)
-                    owner.cash += rent
+        match pos:
+            case _ if pos in RAILROADS:
+                price = 200
+                if pos not in self.ownership:
+                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                        player.cash -= price
+                        self.ownership[pos] = player_idx
+                        player.railroads_owned.append(pos)
+                else:
+                    owner_idx = self.ownership[pos]
+                    if owner_idx != player_idx:
+                        owner = self.players[owner_idx]
+                        rr_count = len(owner.railroads_owned)
+                        rent = [0, 25, 50, 100, 200][rr_count]
+                        self.pay(player, rent)
+                        owner.cash += rent
 
-        elif pos in UTILITIES:
-            price = 150
-            if pos not in self.ownership:
-                if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
-                    player.cash -= price
-                    self.ownership[pos] = player_idx
-                    player.utilities_owned.append(pos)
-            else:
-                owner_idx = self.ownership[pos]
-                if owner_idx != player_idx:
-                    owner = self.players[owner_idx]
-                    util_count = len(owner.utilities_owned)
-                    d1, d2 = self.roll_dice()
-                    multiplier = 10 if util_count == 2 else 4
-                    rent = (d1 + d2) * multiplier
-                    self.pay(player, rent)
-                    owner.cash += rent
+            case _ if pos in UTILITIES:
+                price = 150
+                if pos not in self.ownership:
+                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                        player.cash -= price
+                        self.ownership[pos] = player_idx
+                        player.utilities_owned.append(pos)
+                else:
+                    owner_idx = self.ownership[pos]
+                    if owner_idx != player_idx:
+                        owner = self.players[owner_idx]
+                        util_count = len(owner.utilities_owned)
+                        d1, d2 = self.roll_dice()
+                        multiplier = 10 if util_count == 2 else 4
+                        rent = (d1 + d2) * multiplier
+                        self.pay(player, rent)
+                        owner.cash += rent
 
-        elif pos in PROP_BY_POS:
-            color, name, price, rents = PROP_BY_POS[pos]
-            if pos not in self.ownership:
-                if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
-                    player.cash -= price
-                    self.ownership[pos] = player_idx
-                    player.properties_owned.append(pos)
-            else:
-                owner_idx = self.ownership[pos]
-                if owner_idx != player_idx:
-                    owner = self.players[owner_idx]
-                    house_count = owner.houses.get(pos, 0)
-                    if house_count == 0 and owner.owns_color_set(color):
-                        rent = rents[0] * 2   # double rent on unimproved monopoly
-                    else:
-                        rent = rents[min(house_count, 5)]
-                    self.pay(player, rent)
-                    owner.cash += rent
+            case _ if pos in PROP_BY_POS:
+                color, name, price, rents = PROP_BY_POS[pos]
+                if pos not in self.ownership:
+                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                        player.cash -= price
+                        self.ownership[pos] = player_idx
+                        player.properties_owned.append(pos)
+                else:
+                    owner_idx = self.ownership[pos]
+                    if owner_idx != player_idx:
+                        owner = self.players[owner_idx]
+                        house_count = owner.houses.get(pos, 0)
+                        if house_count == 0 and owner.owns_color_set(color):
+                            rent = rents[0] * 2   # double rent on unimproved monopoly
+                        else:
+                            rent = rents[min(house_count, 5)]
+                        self.pay(player, rent)
+                        owner.cash += rent
+
+            case _:
+                pass
 
     # ── Building ──────────────────────────────
 

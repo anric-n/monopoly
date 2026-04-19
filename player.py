@@ -56,7 +56,7 @@ def strategy_greedy(player: Player, pos: int, price: int) -> bool:
 
 
 def strategy_color_hunter(player: Player, pos: int, price: int) -> bool:
-    """Buy if already own part of the color group, or have >$800 to speculate."""
+    """Buy if already own part of the color group, or have >$600 to speculate."""
     if player.cash - price < 150:
         return False
     if pos in PROP_BY_POS:
@@ -64,7 +64,7 @@ def strategy_color_hunter(player: Player, pos: int, price: int) -> bool:
         owned_in_group = sum(1 for p in COLOR_GROUPS[color] if p in player.properties_owned)
         if owned_in_group > 0:
             return True
-        if player.cash > 800:
+        if player.cash > 600:
             return True
     return False
 
@@ -81,11 +81,11 @@ def strategy_roi(player: Player, pos: int, price: int) -> bool:
 
 
 def strategy_position_based(player: Player, pos: int, price: int) -> bool:
-    """Buy if the Markov steady-state visit probability is >=10% above the board average."""
+    """Buy if the Markov steady-state visit probability is >=5% above the board average."""
     if player.cash - price < 150:
         return False
     avg_prob = sum(STEADY_STATE_PROBS) / len(STEADY_STATE_PROBS)
-    return STEADY_STATE_PROBS[pos] >= avg_prob * 1.1
+    return STEADY_STATE_PROBS[pos] >= avg_prob * 1.05
 
 
 STRATEGIES = {

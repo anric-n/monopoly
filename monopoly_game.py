@@ -19,6 +19,23 @@ class MonopolyGame:
         self.chance_idx = 0
         self.community_idx = 0
         self.ownership = {}   # board_pos -> player index
+        self.available_houses = 32
+        self.available_hotels = 12
+        self._determine_start_order()
+
+    # ── Setup player order ─────────────────────────────────
+    def _determine_start_order(self):
+        rolls = [random.randint(1, 6) for _ in self.players]
+        while len(set(rolls)) < len(rolls):
+            duplicated = {}
+            for i, value in enumerate(rolls):
+                duplicated.setdefault(value, []).append(i)
+            for tied in duplicated.values():
+                if len(tied) > 1:
+                    for i in tied:
+                        rolls[i] = random.randint(1, 6)
+        ordered_indices = sorted(range(len(self.players)), key=lambda i: rolls[i], reverse=True)
+        self.players = [self.players[i] for i in ordered_indices]
 
     # ── Dice ──────────────────────────────────
 
@@ -202,8 +219,9 @@ class MonopolyGame:
 
     def pay(self, player, amount):
         player.cash -= amount
-        if player.cash < 0:
+        if player.cash < 0 and not player.bankrupt:
             player.bankrupt = True
+            self._release_assets_to_bank(player)
 
     # ── Landing ───────────────────────────────
 
@@ -315,9 +333,19 @@ class MonopolyGame:
                 h = player.houses.get(pos, 0)
                 if h >= 5:
                     continue
-                if player.cash - house_cost >= 300:
-                    player.cash -= house_cost
-                    player.houses[pos] = h + 1
+                if player.cash - house_cost < 300:
+                    continue
+                if h == 4:
+                    if self.available_hotels <= 0:
+                        continue
+                    self.available_hotels -= 1
+                    self.available_houses += 4
+                else:
+                    if self.available_houses <= 0:
+                        continue
+                    self.available_houses -= 1
+                player.cash -= house_cost
+                player.houses[pos] = h + 1
 
     # ── Turn ──────────────────────────────────
 
@@ -383,7 +411,30 @@ class MonopolyGame:
         # Bonus roll on doubles (only if not sent to jail this turn)
         if doubles and not player.in_jail and not player.bankrupt:
             self.player_turn(player)
+    
+    # ── Bankruptcy ─────────────────────────────
+    def _release_assets_to_bank(self, player):
+        player_idx = self.players.index(player)
 
+        for pos, house_count in player.houses.items():
+            if house_count >= 5:
+                self.available_hotels += 1
+                self.available_houses += 4
+            else:
+                self.available_houses += house_count
+        player.houses.clear()
+
+        self.ownership = {
+            pos: owner_idx
+            for pos, owner_idx in self.ownership.items()
+            if owner_idx != player_idx
+        }
+
+        player.properties_owned.clear()
+        player.railroads_owned.clear()
+        player.utilities_owned.clear()
+        player.get_out_of_jail_cards = 0
+        
     # ── Game loop ─────────────────────────────
 
     def run(self):

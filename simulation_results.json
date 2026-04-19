@@ -1,0 +1,57 @@
+{
+  "n_games": 1000,
+  "strategies": [
+    "Greedy",
+    "Color Hunter",
+    "ROI-Based",
+    "Position-Based"
+  ],
+  "wins": {
+    "Greedy": 462,
+    "Position-Based": 118,
+    "Color Hunter": 194,
+    "ROI-Based": 226
+  },
+  "win_rate": {
+    "Greedy": 0.462,
+    "Color Hunter": 0.194,
+    "ROI-Based": 0.226,
+    "Position-Based": 0.118
+  },
+  "avg_net_worth": {
+    "Greedy": 11219.684,
+    "Color Hunter": 5859.267,
+    "ROI-Based": 6514.911,
+    "Position-Based": 4915.606
+  },
+  "median_net_worth": {
+    "Greedy": 10948.5,
+    "Color Hunter": 6198.5,
+    "ROI-Based": 6850.0,
+    "Position-Based": -7.0
+  },
+  "std_net_worth": {
+    "Greedy": 10922.786007530785,
+    "Color Hunter": 6213.554154180837,
+    "ROI-Based": 6614.152443028405,
+    "Position-Based": 7301.739000621509
+  },
+  "avg_cash": {
+    "Greedy": 10068.784,
+    "Color Hunter": 5019.027,
+    "ROI-Based": 5567.841,
+    "Position-Based": 4778.976
+  },
+  "avg_properties": {
+    "Greedy": 8.26,
+    "Color Hunter": 5.154,
+    "ROI-Based": 5.726,
+    "Position-Based": 1.435
+  },
+  "bankruptcy_rate": {
+    "Greedy": 0.354,
+    "Color Hunter": 0.38,
+    "ROI-Based": 0.35,
+    "Position-Based": 0.515
+  }
+}

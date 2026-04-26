@@ -1,12 +1,12 @@
 """
 Monopoly Player Class and Strategy Functions
 """
-
+from random import choice
 from dataclasses import dataclass, field
 from board_setup import STEADY_STATE_PROBS, PROP_BY_POS, COLOR_GROUPS, HOUSE_COSTS, AVG_PROB, RAILROADS, UTILITIES
 
 
-@dataclass
+@dataclass(eq=False)
 class Player:
     name: str
     strategy: str
@@ -60,12 +60,12 @@ def strategy_color_hunter(player: Player, pos: int, price: int) -> bool:
     if pos in PROP_BY_POS:
         color = PROP_BY_POS[pos][0]
         owned_in_group = sum(1 for p in COLOR_GROUPS[color] if p in player.properties_owned)
-        if owned_in_group > 0 & player.cash  >= price:
+        if owned_in_group > 0 and player.cash  >= price:
             return True
     return player.cash - price >= 100
 
 def strategy_roi(player: Player, pos: int, price: int) -> bool:
-    """Buy only if base_rent/price > 3% ROI threshold. Railroads/utilities always pass."""
+    """Buy if the markov-weighted ROI looks favorable compared to a board-average benchmark, with some heuristics for cash buffer."""
     if player.cash > 600:
         return player.cash - price >= 100
     if player.cash - price < 200:
@@ -83,7 +83,7 @@ def strategy_roi(player: Player, pos: int, price: int) -> bool:
 
 def strategy_random(player: Player, pos: int, price: int) -> bool:
     """Buy randomly if you can afford withn $100 buffer (baseline)."""
-    return player.cash - price >= 100 and random.choice([True, False])
+    return player.cash - price >= 100 and choice([True, False])
 
 
 STRATEGIES = {

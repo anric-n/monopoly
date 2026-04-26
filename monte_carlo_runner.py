@@ -22,10 +22,18 @@ def run_simulation(n_games=1000, max_turns=300, strategies=None):
     properties_acquired = defaultdict(list)
     bankruptcies = defaultdict(int)
 
+    # Build stable, unique player labels so duplicate strategy names don't collapse
+    from collections import defaultdict as _dd
+    _counts = _dd(int)
+    player_labels = []
+    for s in strategies:
+        _counts[s] += 1
+        player_labels.append(f"{s} #{_counts[s]}")
+
     print(f"\n{'='*55}")
     print(f"  MONOPOLY MONTE CARLO SIMULATION")
     print(f"  {n_games} games x {max_turns} max turns")
-    print(f"  Strategies: {', '.join(strategies)}")
+    print(f"  Players: {', '.join(player_labels)}")
     print(f"{'='*55}\n")
 
     for game_num in range(n_games):
@@ -33,29 +41,45 @@ def run_simulation(n_games=1000, max_turns=300, strategies=None):
             print(f"  Simulating game {game_num + 1}/{n_games}...")
 
         game = MonopolyGame(strategies, max_turns=max_turns)
-        winner = game.run()
-        wins[winner.strategy] += 1
+        # Assign stable, unique names to the Player instances based on the
+        # requested strategies so identical strategy strings don't collapse
+        # together when aggregating statistics.
+        name_pool = {k: v.copy() for k, v in _dd(list, {s: []}).items()}
+        # Build a fresh name pool in the same order as player_labels
+        _tmp_counts = _dd(int)
+        for label, s in zip(player_labels, strategies):
+            _tmp_counts[s] += 1
+            name_pool.setdefault(s, []).append(label)
 
         for p in game.players:
-            final_net_worths[p.strategy].append(p.net_worth())
-            final_cash[p.strategy].append(p.cash)
-            properties_acquired[p.strategy].append(
+            # pop labels in the order they were generated
+            p.name = name_pool[p.strategy].pop(0)
+        winner = game.run()
+        wins[winner.name] += 1
+
+        for p in game.players:
+            final_net_worths[p.name].append(p.net_worth())
+            final_cash[p.name].append(p.cash)
+            properties_acquired[p.name].append(
                 len(p.properties_owned) + len(p.railroads_owned) + len(p.utilities_owned)
             )
             if p.bankrupt:
-                bankruptcies[p.strategy] += 1
+                bankruptcies[p.name] += 1
 
     return {
         "n_games": n_games,
-        "strategies": strategies,
-        "wins": dict(wins),
-        "win_rate": {s: wins[s] / n_games for s in strategies},
-        "avg_net_worth": {s: statistics.mean(final_net_worths[s]) for s in strategies},
-        "median_net_worth": {s: statistics.median(final_net_worths[s]) for s in strategies},
-        "std_net_worth": {s: statistics.stdev(final_net_worths[s]) if len(final_net_worths[s]) > 1 else 0 for s in strategies},
-        "avg_cash": {s: statistics.mean(final_cash[s]) for s in strategies},
-        "avg_properties": {s: statistics.mean(properties_acquired[s]) for s in strategies},
-        "bankruptcy_rate": {s: bankruptcies[s] / n_games for s in strategies},
+    # 'strategies' contains the per-player labels (unique even for duplicate
+    # strategies). Also include a mapping from player label -> strategy.
+    "strategies": player_labels,
+    "strategy_map": {label: s for label, s in zip(player_labels, strategies)},
+    "wins": dict(wins),
+    "win_rate": {s: wins[s] / n_games for s in player_labels},
+    "avg_net_worth": {s: statistics.mean(final_net_worths[s]) for s in player_labels},
+    "median_net_worth": {s: statistics.median(final_net_worths[s]) for s in player_labels},
+    "std_net_worth": {s: statistics.stdev(final_net_worths[s]) if len(final_net_worths[s]) > 1 else 0 for s in player_labels},
+    "avg_cash": {s: statistics.mean(final_cash[s]) for s in player_labels},
+    "avg_properties": {s: statistics.mean(properties_acquired[s]) for s in player_labels},
+    "bankruptcy_rate": {s: bankruptcies[s] / n_games for s in player_labels},
     }
 
 
@@ -100,7 +124,7 @@ if __name__ == "__main__":
     results = run_simulation(
         n_games=1000,
         max_turns=300,
-        strategies=["Greedy", "Color Hunter", "ROI-Based", "Random"],
+        strategies=["Greedy", "Greedy", "ROI-Based", "ROI-Based"],
     )
 
     print_results(results)

@@ -4,7 +4,6 @@ Discrete Math Project - 4 Heuristic Strategy Comparison
 """
 
 import random
-random.seed(100)
 
 import statistics
 from collections import defaultdict
@@ -37,6 +36,7 @@ def run_simulation(n_games=1000, max_turns=300, strategies=None):
     print(f"{'='*55}\n")
 
     for game_num in range(n_games):
+        random.seed(game_num)  # for reproducibility and fair comparison
         if (game_num + 1) % 100 == 0:
             print(f"  Simulating game {game_num + 1}/{n_games}...")
 
@@ -179,11 +179,11 @@ if __name__ == "__main__":
     results = run_simulation(
         n_games=10000,
         max_turns=300,
-        strategies=["Cash Aware", "ROI-Based", "ROI-Based", "Cash Aware"]
+        strategies=["Cash Aware", "Cash Aware", "Greedy", "Greedy"]
     )
 
     print_results(results)
 
     with open("simulation_results.json", "w") as f:
         json.dump(results, f, indent=2)
-    print("Results saved to simulation_results.json")
+    print("Results saved to simulation_results.json")+

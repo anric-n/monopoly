@@ -41,17 +41,7 @@ class MonopolyGame:
 
     # ── Setup player order ─────────────────────────────────
     def _determine_start_order(self):
-        rolls = [random.randint(1, 6) for _ in self.players]
-        while len(set(rolls)) < len(rolls):
-            duplicated = {}
-            for i, value in enumerate(rolls):
-                duplicated.setdefault(value, []).append(i)
-            for tied in duplicated.values():
-                if len(tied) > 1:
-                    for i in tied:
-                        rolls[i] = random.randint(1, 6)
-        ordered_indices = sorted(range(len(self.players)), key=lambda i: rolls[i], reverse=True)
-        self.players = [self.players[i] for i in ordered_indices]
+        random.shuffle(self.players)
 
     # ── Dice ──────────────────────────────────
 

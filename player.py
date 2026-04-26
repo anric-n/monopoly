@@ -3,7 +3,7 @@ Monopoly Player Class and Strategy Functions
 """
 
 from dataclasses import dataclass, field
-from board_setup import STEADY_STATE_PROBS, PROP_BY_POS, COLOR_GROUPS, HOUSE_COSTS
+from board_setup import STEADY_STATE_PROBS, PROP_BY_POS, COLOR_GROUPS, HOUSE_COSTS, AVG_PROB, RAILROADS, UTILITIES
 
 
 @dataclass
@@ -56,41 +56,39 @@ def strategy_greedy(player: Player, pos: int, price: int) -> bool:
 
 
 def strategy_color_hunter(player: Player, pos: int, price: int) -> bool:
-    """Buy if already own part of the color group, or have >$600 to speculate."""
-    if player.cash - price < 150:
-        return False
+    """Buy if already own part of the color group, otherwise defer to greedy strategy."""
     if pos in PROP_BY_POS:
         color = PROP_BY_POS[pos][0]
         owned_in_group = sum(1 for p in COLOR_GROUPS[color] if p in player.properties_owned)
-        if owned_in_group > 0:
+        if owned_in_group > 0 & player.cash  >= price:
             return True
-        if player.cash > 600:
-            return True
-    return False
-
+    return player.cash - price >= 100
 
 def strategy_roi(player: Player, pos: int, price: int) -> bool:
     """Buy only if base_rent/price > 3% ROI threshold. Railroads/utilities always pass."""
-    ROI_THRESHOLD = 0.03
+    if player.cash > 600:
+        return player.cash - price >= 100
     if player.cash - price < 200:
         return False
     if pos in PROP_BY_POS:
-        _, _, p, rents = PROP_BY_POS[pos]
-        return (rents[0] / p) >= ROI_THRESHOLD
+        _, _, _, rents = PROP_BY_POS[pos]
+        # markov-weighted ROI: pi * hotel_rent / (price + 5 houses)
+        score = STEADY_STATE_PROBS[pos] * rents[5] / (price + 5 * HOUSE_COSTS[PROP_BY_POS[pos][0]])
+        # rough board-average benchmark
+        bench = AVG_PROB * 1000 / (260 + 5 * HOUSE_COSTS[PROP_BY_POS[pos][0]])
+        return score > bench
+    elif pos in RAILROADS or pos in UTILITIES:
+        return STEADY_STATE_PROBS[pos] > AVG_PROB
     return False
 
-
-def strategy_position_based(player: Player, pos: int, price: int) -> bool:
-    """Buy if the Markov steady-state visit probability is >=5% above the board average."""
-    if player.cash - price < 150:
-        return False
-    avg_prob = sum(STEADY_STATE_PROBS) / len(STEADY_STATE_PROBS)
-    return STEADY_STATE_PROBS[pos] >= avg_prob * 1.05
+def strategy_cash_aware(player: Player, pos: int, price: int) -> bool:
+    """Buy everything you can afford, (keep $250 buffer)."""
+    return player.cash - price >= 250
 
 
 STRATEGIES = {
     "Greedy":         strategy_greedy,
     "Color Hunter":   strategy_color_hunter,
     "ROI-Based":      strategy_roi,
-    "Position-Based": strategy_position_based,
+    "Cash Aware": strategy_cash_aware,
 }

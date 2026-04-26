@@ -6,18 +6,21 @@ Constants and data structures for the Monopoly board.
 from collections import defaultdict
 import random
 
-# Long-term steady-state probabilities from your Markov chain analysis.
-# Index = board position (0-39). Replace with your actual computed values.
+
+# Long-term steady-state probabilities.
+# Index = board position (0-39). Computed from 123-state model.
 STEADY_STATE_PROBS = [
-    0.0311, 0.0176, 0.0179, 0.0162, 0.0199,  # 0-4
-    0.0283, 0.0162, 0.0141, 0.0162, 0.0196,  # 5-9
-    0.0323, 0.0241, 0.0205, 0.0241, 0.0162,  # 10-14
-    0.0285, 0.0188, 0.0141, 0.0210, 0.0194,  # 15-19
-    0.0228, 0.0181, 0.0222, 0.0281, 0.0180,  # 20-24
-    0.0289, 0.0162, 0.0141, 0.0203, 0.0220,  # 25-29
-    0.0588, 0.0218, 0.0223, 0.0218, 0.0162,  # 30-34
-    0.0289, 0.0162, 0.0141, 0.0203, 0.0209,  # 35-39
+    0.02910203, 0.01900887, 0.01776948, 0.01949506, 0.02139861,  # 0-4
+    0.02722046, 0.02103605, 0.00790118, 0.02175848, 0.0214676,   # 5-9
+    0.13018665, 0.02512166, 0.02572594, 0.02145855, 0.0241344,   # 10-14
+    0.02623223, 0.02688761, 0.02311642, 0.02837443, 0.02846497,  # 15-19
+    0.02821496, 0.02583419, 0.01033747, 0.02514315, 0.02951369,  # 20-24
+    0.02831885, 0.02491784, 0.02434912, 0.02591072, 0.02344916,  # 25-29
+    0.0,        0.02441243, 0.02505077, 0.02145117, 0.0237701,   # 30-34
+    0.02192562, 0.00797982, 0.01932585, 0.02052527, 0.02370914,  # 35-39
 ]
+
+AVG_PROB = sum(STEADY_STATE_PROBS) / 40
 
 # House/hotel cost per build, by color group (same cost for houses and hotels)
 HOUSE_COSTS = {

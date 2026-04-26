@@ -4,6 +4,8 @@ Discrete Math Project - 4 Heuristic Strategy Comparison
 """
 
 import random
+random.seed(100)
+
 import statistics
 from collections import defaultdict
 import json
@@ -12,7 +14,7 @@ from monopoly_game import MonopolyGame
 
 def run_simulation(n_games=1000, max_turns=300, strategies=None):
     if strategies is None:
-        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Position-Based"]
+        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"]
 
     wins = defaultdict(int)
     final_net_worths = defaultdict(list)
@@ -94,12 +96,11 @@ def print_results(results):
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    random.seed(42)
 
     results = run_simulation(
         n_games=1000,
         max_turns=300,
-        strategies=["Greedy", "Color Hunter", "ROI-Based", "Position-Based"]
+        strategies=["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"],
     )
 
     print_results(results)

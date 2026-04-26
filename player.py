@@ -81,14 +81,14 @@ def strategy_roi(player: Player, pos: int, price: int) -> bool:
         return STEADY_STATE_PROBS[pos] > AVG_PROB
     return False
 
-def strategy_cash_aware(player: Player, pos: int, price: int) -> bool:
-    """Buy everything you can afford, (keep $250 buffer)."""
-    return player.cash - price >= 250
+def strategy_random(player: Player, pos: int, price: int) -> bool:
+    """Buy randomly if you can afford withn $100 buffer (baseline)."""
+    return player.cash - price >= 100 and random.choice([True, False])
 
 
 STRATEGIES = {
     "Greedy":         strategy_greedy,
     "Color Hunter":   strategy_color_hunter,
     "ROI-Based":      strategy_roi,
-    "Cash Aware": strategy_cash_aware,
+    "Random":         strategy_random,
 }

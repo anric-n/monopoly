@@ -14,7 +14,7 @@ from monopoly_game import MonopolyGame
 
 def run_simulation(n_games=1000, max_turns=300, strategies=None):
     if strategies is None:
-        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"]
+        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Random"]
 
     wins = defaultdict(int)
     final_net_worths = defaultdict(list)
@@ -98,9 +98,9 @@ def print_results(results):
 if __name__ == "__main__":
 
     results = run_simulation(
-        n_games=100000,
+        n_games=1000,
         max_turns=300,
-        strategies=["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"],
+        strategies=["Greedy", "Color Hunter", "ROI-Based", "Random"],
     )
 
     print_results(results)

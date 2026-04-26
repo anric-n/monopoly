@@ -9,9 +9,18 @@ from board_setup import (
 )
 from player import Player, STRATEGIES
 
+# Current active game (set by MonopolyGame.__init__). Strategies may read
+# this to access board state when they are called.
+CURRENT_GAME = None
+
 
 class MonopolyGame:
     def __init__(self, strategy_names, max_turns=300, verbose=False):
+        """Create a MonopolyGame with player strategy names.
+
+        This sets a module-level CURRENT_GAME reference so strategy functions
+        that accept a `game` parameter can inspect the live board state.
+        """
         self.players = [Player(name=s, strategy=s) for s in strategy_names]
         self.max_turns = max_turns
         self.verbose = verbose
@@ -21,6 +30,13 @@ class MonopolyGame:
         self.ownership = {}   # board_pos -> player index
         self.available_houses = 32
         self.available_hotels = 12
+
+        # publish this game instance for strategies that need to inspect
+        # the current board state. This is a small, explicit escape hatch
+        # used only by strategy functions.
+        global CURRENT_GAME
+        CURRENT_GAME = self
+
         self._determine_start_order()
 
     # ── Setup player order ─────────────────────────────────
@@ -263,7 +279,7 @@ class MonopolyGame:
             case _ if pos in RAILROADS:
                 price = 200
                 if pos not in self.ownership:
-                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                    if STRATEGIES[player.strategy](player, pos, price, self) and player.cash >= price:
                         player.cash -= price
                         self.ownership[pos] = player_idx
                         player.railroads_owned.append(pos)
@@ -279,7 +295,7 @@ class MonopolyGame:
             case _ if pos in UTILITIES:
                 price = 150
                 if pos not in self.ownership:
-                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                    if STRATEGIES[player.strategy](player, pos, price, self) and player.cash >= price:
                         player.cash -= price
                         self.ownership[pos] = player_idx
                         player.utilities_owned.append(pos)
@@ -297,7 +313,7 @@ class MonopolyGame:
             case _ if pos in PROP_BY_POS:
                 color, name, price, rents = PROP_BY_POS[pos]
                 if pos not in self.ownership:
-                    if STRATEGIES[player.strategy](player, pos, price) and player.cash >= price:
+                    if STRATEGIES[player.strategy](player, pos, price, self) and player.cash >= price:
                         player.cash -= price
                         self.ownership[pos] = player_idx
                         player.properties_owned.append(pos)

@@ -14,7 +14,7 @@ from monopoly_game import MonopolyGame
 
 def run_simulation(n_games=1000, max_turns=300, strategies=None):
     if strategies is None:
-        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Random"]
+        strategies = ["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"]
 
     wins = defaultdict(int)
     final_net_worths = defaultdict(list)
@@ -115,6 +115,61 @@ def print_results(results):
     print(f"{'='*55}\n")
 
 
+def run_one_game_describe(strategies, max_turns=1000):
+    """Run one game and return per-player descriptions.
+
+    Returns a dict with player labels, strategy_map, winner, and summaries.
+    """
+    # Build unique labels
+    from collections import defaultdict as _dd
+    _counts = _dd(int)
+    player_labels = []
+    for s in strategies:
+        _counts[s] += 1
+        player_labels.append(f"{s} #{_counts[s]}")
+
+    game = MonopolyGame(strategies, max_turns=max_turns)
+    # assign labels to players
+    name_pool = _dd(list)
+    for label, s in zip(player_labels, strategies):
+        name_pool[s].append(label)
+    for p in game.players:
+        p.name = name_pool[p.strategy].pop(0)
+
+    winner = game.run()
+
+    # build summaries
+    from board_setup import PROP_BY_POS as _PROP
+    summaries = {}
+    for p in game.players:
+        props = [(_PROP[pos][1] if pos in _PROP else f"Square {pos}") for pos in p.properties_owned]
+        rrs = [str(r) for r in p.railroads_owned]
+        utils = [str(u) for u in p.utilities_owned]
+        houses = {(_PROP[pos][1] if pos in _PROP else f"Square {pos}"): cnt for pos, cnt in p.houses.items()}
+        nw_hist = p.net_worth_history
+        summaries[p.name] = {
+            "strategy": p.strategy,
+            "final_cash": p.cash,
+            "final_net_worth": p.net_worth(),
+            "bankrupt": p.bankrupt,
+            "properties": props,
+            "railroads": rrs,
+            "utilities": utils,
+            "houses": houses,
+            "net_worth_history_sample": {
+                "first": nw_hist[0] if nw_hist else None,
+                "last": nw_hist[-1] if nw_hist else None,
+            }
+        }
+
+    return {
+        "player_labels": player_labels,
+        "strategy_map": {label: s for label, s in zip(player_labels, strategies)},
+        "winner": winner.name,
+        "summaries": summaries,
+    }
+
+
 # ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
@@ -122,9 +177,9 @@ def print_results(results):
 if __name__ == "__main__":
 
     results = run_simulation(
-        n_games=1000,
+        n_games=10000,
         max_turns=300,
-        strategies=["Greedy", "Greedy", "ROI-Based", "ROI-Based"],
+        strategies=["Cash Aware", "ROI-Based", "ROI-Based", "Cash Aware"]
     )
 
     print_results(results)

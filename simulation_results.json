@@ -1,5 +1,5 @@
 {
-  "n_games": 1000,
+  "n_games": 100000,
   "strategies": [
     "Greedy",
     "Color Hunter",
@@ -7,51 +7,51 @@
     "Cash Aware"
   ],
   "wins": {
-    "Color Hunter": 266,
-    "ROI-Based": 228,
-    "Greedy": 287,
-    "Cash Aware": 219
+    "Color Hunter": 25871,
+    "ROI-Based": 23758,
+    "Greedy": 26005,
+    "Cash Aware": 24366
   },
   "win_rate": {
-    "Greedy": 0.287,
-    "Color Hunter": 0.266,
-    "ROI-Based": 0.228,
-    "Cash Aware": 0.219
+    "Greedy": 0.26005,
+    "Color Hunter": 0.25871,
+    "ROI-Based": 0.23758,
+    "Cash Aware": 0.24366
   },
   "avg_net_worth": {
-    "Greedy": 9837.183,
-    "Color Hunter": 9361.037,
-    "ROI-Based": 9125.667,
-    "Cash Aware": 9202.92
+    "Greedy": 9441.60006,
+    "Color Hunter": 9424.4164,
+    "ROI-Based": 9120.46799,
+    "Cash Aware": 9234.10729
   },
   "median_net_worth": {
-    "Greedy": 10822.0,
-    "Color Hunter": 10555.5,
-    "ROI-Based": 10501.0,
-    "Cash Aware": 10398.5
+    "Greedy": 10667.0,
+    "Color Hunter": 10652.0,
+    "ROI-Based": 10418.0,
+    "Cash Aware": 10488.0
   },
   "std_net_worth": {
-    "Greedy": 7162.39410650153,
-    "Color Hunter": 6846.781108753381,
-    "ROI-Based": 6744.332834275789,
-    "Cash Aware": 7087.140432015095
+    "Greedy": 7077.53771004778,
+    "Color Hunter": 7061.909841494518,
+    "ROI-Based": 6889.170722620235,
+    "Cash Aware": 7041.50624597898
   },
   "avg_cash": {
-    "Greedy": 9065.008,
-    "Color Hunter": 8627.502,
-    "ROI-Based": 8431.667,
-    "Cash Aware": 8564.575
+    "Greedy": 8720.00371,
+    "Color Hunter": 8705.015,
+    "ROI-Based": 8437.59969,
+    "Cash Aware": 8555.03574
   },
   "avg_properties": {
-    "Greedy": 6.168,
-    "Color Hunter": 5.948,
-    "ROI-Based": 5.698,
-    "Cash Aware": 5.471
+    "Greedy": 5.90179,
+    "Color Hunter": 5.89829,
+    "ROI-Based": 5.64855,
+    "Cash Aware": 5.68291
   },
   "bankruptcy_rate": {
-    "Greedy": 0.225,
-    "Color Hunter": 0.233,
-    "ROI-Based": 0.245,
-    "Cash Aware": 0.258
+    "Greedy": 0.24012,
+    "Color Hunter": 0.2401,
+    "ROI-Based": 0.24641,
+    "Cash Aware": 0.24697
   }
 }

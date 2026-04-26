@@ -98,7 +98,7 @@ def print_results(results):
 if __name__ == "__main__":
 
     results = run_simulation(
-        n_games=1000,
+        n_games=100000,
         max_turns=300,
         strategies=["Greedy", "Color Hunter", "ROI-Based", "Cash Aware"],
     )

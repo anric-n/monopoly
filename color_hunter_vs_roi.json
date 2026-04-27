@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Color Hunter #1",
+    "Color Hunter #2",
+    "ROI-Based #1",
+    "ROI-Based #2"
+  ],
+  "strategy_map": {
+    "Color Hunter #1": "Color Hunter",
+    "Color Hunter #2": "Color Hunter",
+    "ROI-Based #1": "ROI-Based",
+    "ROI-Based #2": "ROI-Based"
+  },
+  "wins": {
+    "Color Hunter #1": 2571,
+    "Color Hunter #2": 2676,
+    "ROI-Based #1": 2346,
+    "ROI-Based #2": 2407
+  },
+  "win_rate": {
+    "Color Hunter #1": 0.2571,
+    "Color Hunter #2": 0.2676,
+    "ROI-Based #1": 0.2346,
+    "ROI-Based #2": 0.2407
+  },
+  "avg_net_worth": {
+    "Color Hunter #1": 9143.0894,
+    "Color Hunter #2": 9338.3508,
+    "ROI-Based #1": 8941.3654,
+    "ROI-Based #2": 8957.9379
+  },
+  "median_net_worth": {
+    "Color Hunter #1": 10422.0,
+    "Color Hunter #2": 10545.0,
+    "ROI-Based #1": 10296.5,
+    "ROI-Based #2": 10194.5
+  },
+  "std_net_worth": {
+    "Color Hunter #1": 7072.616128583388,
+    "Color Hunter #2": 7132.829525471873,
+    "ROI-Based #1": 7000.151856001665,
+    "ROI-Based #2": 6931.823640250922
+  },
+  "avg_cash": {
+    "Color Hunter #1": 8432.5109,
+    "Color Hunter #2": 8609.8828,
+    "ROI-Based #1": 8273.9504,
+    "ROI-Based #2": 8272.2459
+  },
+  "avg_properties": {
+    "Color Hunter #1": 5.7924,
+    "Color Hunter #2": 5.8975,
+    "ROI-Based #1": 5.5394,
+    "ROI-Based #2": 5.6366
+  },
+  "bankruptcy_rate": {
+    "Color Hunter #1": 0.2568,
+    "Color Hunter #2": 0.2509,
+    "ROI-Based #1": 0.2629,
+    "ROI-Based #2": 0.2549
+  }
+}

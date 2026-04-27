@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Cash Aware #1",
+    "Cash Aware #2",
+    "Greedy #1",
+    "Greedy #2"
+  ],
+  "strategy_map": {
+    "Cash Aware #1": "Cash Aware",
+    "Cash Aware #2": "Cash Aware",
+    "Greedy #1": "Greedy",
+    "Greedy #2": "Greedy"
+  },
+  "wins": {
+    "Cash Aware #1": 2473,
+    "Cash Aware #2": 2575,
+    "Greedy #1": 2430,
+    "Greedy #2": 2522
+  },
+  "win_rate": {
+    "Cash Aware #1": 0.2473,
+    "Cash Aware #2": 0.2575,
+    "Greedy #1": 0.243,
+    "Greedy #2": 0.2522
+  },
+  "avg_net_worth": {
+    "Cash Aware #1": 9197.0203,
+    "Cash Aware #2": 9371.5963,
+    "Greedy #1": 9223.6727,
+    "Greedy #2": 9270.3242
+  },
+  "median_net_worth": {
+    "Cash Aware #1": 10475.0,
+    "Cash Aware #2": 10599.0,
+    "Greedy #1": 10511.5,
+    "Greedy #2": 10449.0
+  },
+  "std_net_worth": {
+    "Cash Aware #1": 6943.718555804673,
+    "Cash Aware #2": 7045.5467846062675,
+    "Greedy #1": 7035.743242321446,
+    "Greedy #2": 6988.5562443277495
+  },
+  "avg_cash": {
+    "Cash Aware #1": 8501.7218,
+    "Cash Aware #2": 8659.7533,
+    "Greedy #1": 8529.3252,
+    "Greedy #2": 8555.2782
+  },
+  "avg_properties": {
+    "Cash Aware #1": 5.7305,
+    "Cash Aware #2": 5.8303,
+    "Greedy #1": 5.7346,
+    "Greedy #2": 5.8602
+  },
+  "bankruptcy_rate": {
+    "Cash Aware #1": 0.2479,
+    "Cash Aware #2": 0.2435,
+    "Greedy #1": 0.2506,
+    "Greedy #2": 0.2433
+  }
+}

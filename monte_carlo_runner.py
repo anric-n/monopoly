@@ -40,20 +40,7 @@ def run_simulation(n_games=1000, max_turns=300, strategies=None):
         if (game_num + 1) % 100 == 0:
             print(f"  Simulating game {game_num + 1}/{n_games}...")
 
-        game = MonopolyGame(strategies, max_turns=max_turns)
-        # Assign stable, unique names to the Player instances based on the
-        # requested strategies so identical strategy strings don't collapse
-        # together when aggregating statistics.
-        name_pool = {k: v.copy() for k, v in _dd(list, {s: []}).items()}
-        # Build a fresh name pool in the same order as player_labels
-        _tmp_counts = _dd(int)
-        for label, s in zip(player_labels, strategies):
-            _tmp_counts[s] += 1
-            name_pool.setdefault(s, []).append(label)
-
-        for p in game.players:
-            # pop labels in the order they were generated
-            p.name = name_pool[p.strategy].pop(0)
+        game = MonopolyGame(player_labels, max_turns=max_turns)
         winner = game.run()
         wins[winner.name] += 1
 
@@ -179,7 +166,7 @@ if __name__ == "__main__":
     results = run_simulation(
         n_games=10000,
         max_turns=300,
-        strategies=["Cash Aware", "Cash Aware", "Greedy", "Greedy"]
+        strategies=["Greedy", "Greedy", "ROI-Based", "ROI-Based"]
     )
 
     print_results(results)

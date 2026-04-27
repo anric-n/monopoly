@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Greedy #1",
+    "Greedy #2",
+    "ROI-Based #1",
+    "ROI-Based #2"
+  ],
+  "strategy_map": {
+    "Greedy #1": "Greedy",
+    "Greedy #2": "Greedy",
+    "ROI-Based #1": "ROI-Based",
+    "ROI-Based #2": "ROI-Based"
+  },
+  "wins": {
+    "Greedy #1": 2579,
+    "Greedy #2": 2664,
+    "ROI-Based #1": 2360,
+    "ROI-Based #2": 2397
+  },
+  "win_rate": {
+    "Greedy #1": 0.2579,
+    "Greedy #2": 0.2664,
+    "ROI-Based #1": 0.236,
+    "ROI-Based #2": 0.2397
+  },
+  "avg_net_worth": {
+    "Greedy #1": 9325.6295,
+    "Greedy #2": 9496.0386,
+    "ROI-Based #1": 9110.3941,
+    "ROI-Based #2": 9103.0013
+  },
+  "median_net_worth": {
+    "Greedy #1": 10578.0,
+    "Greedy #2": 10695.0,
+    "ROI-Based #1": 10417.5,
+    "ROI-Based #2": 10315.5
+  },
+  "std_net_worth": {
+    "Greedy #1": 7035.8911236189615,
+    "Greedy #2": 7119.943146932536,
+    "ROI-Based #1": 6960.194796508624,
+    "ROI-Based #2": 6877.1788163567135
+  },
+  "avg_cash": {
+    "Greedy #1": 8613.6935,
+    "Greedy #2": 8775.2866,
+    "ROI-Based #1": 8439.1381,
+    "ROI-Based #2": 8412.3018
+  },
+  "avg_properties": {
+    "Greedy #1": 5.8558,
+    "Greedy #2": 5.9183,
+    "ROI-Based #1": 5.5903,
+    "ROI-Based #2": 5.6921
+  },
+  "bankruptcy_rate": {
+    "Greedy #1": 0.2442,
+    "Greedy #2": 0.2417,
+    "ROI-Based #1": 0.2517,
+    "ROI-Based #2": 0.2444
+  }
+}

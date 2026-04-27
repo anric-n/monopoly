@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Cash Aware #1",
+    "Cash Aware #2",
+    "Color Hunter #1",
+    "Color Hunter #2"
+  ],
+  "strategy_map": {
+    "Cash Aware #1": "Cash Aware",
+    "Cash Aware #2": "Cash Aware",
+    "Color Hunter #1": "Color Hunter",
+    "Color Hunter #2": "Color Hunter"
+  },
+  "wins": {
+    "Cash Aware #1": 2465,
+    "Cash Aware #2": 2566,
+    "Color Hunter #1": 2433,
+    "Color Hunter #2": 2536
+  },
+  "win_rate": {
+    "Cash Aware #1": 0.2465,
+    "Cash Aware #2": 0.2566,
+    "Color Hunter #1": 0.2433,
+    "Color Hunter #2": 0.2536
+  },
+  "avg_net_worth": {
+    "Cash Aware #1": 9036.3772,
+    "Cash Aware #2": 9200.9283,
+    "Color Hunter #1": 9056.8022,
+    "Color Hunter #2": 9129.3978
+  },
+  "median_net_worth": {
+    "Cash Aware #1": 10352.0,
+    "Cash Aware #2": 10480.0,
+    "Color Hunter #1": 10391.5,
+    "Color Hunter #2": 10337.0
+  },
+  "std_net_worth": {
+    "Cash Aware #1": 6976.044832100071,
+    "Cash Aware #2": 7071.562994605773,
+    "Color Hunter #1": 7059.208595945814,
+    "Color Hunter #2": 7016.25662108025
+  },
+  "avg_cash": {
+    "Cash Aware #1": 8343.5777,
+    "Cash Aware #2": 8494.5258,
+    "Color Hunter #1": 8359.6267,
+    "Color Hunter #2": 8410.8418
+  },
+  "avg_properties": {
+    "Cash Aware #1": 5.6811,
+    "Cash Aware #2": 5.7676,
+    "Color Hunter #1": 5.6844,
+    "Color Hunter #2": 5.8237
+  },
+  "bankruptcy_rate": {
+    "Cash Aware #1": 0.2582,
+    "Cash Aware #2": 0.2543,
+    "Color Hunter #1": 0.2617,
+    "Color Hunter #2": 0.2533
+  }
+}

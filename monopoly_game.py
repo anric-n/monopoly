@@ -21,7 +21,7 @@ class MonopolyGame:
         This sets a module-level CURRENT_GAME reference so strategy functions
         that accept a `game` parameter can inspect the live board state.
         """
-        self.players = [Player(name=s, strategy=s) for s in strategy_names]
+        self.players = [Player(name=s, strategy=s.rsplit(" #", 1)[0]) for s in strategy_names]
         self.max_turns = max_turns
         self.verbose = verbose
         self.chance_deck, self.community_deck = shuffle_decks()

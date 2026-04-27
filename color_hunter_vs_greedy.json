@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Color Hunter #1",
+    "Color Hunter #2",
+    "Greedy #1",
+    "Greedy #2"
+  ],
+  "strategy_map": {
+    "Color Hunter #1": "Color Hunter",
+    "Color Hunter #2": "Color Hunter",
+    "Greedy #1": "Greedy",
+    "Greedy #2": "Greedy"
+  },
+  "wins": {
+    "Color Hunter #1": 2451,
+    "Color Hunter #2": 2564,
+    "Greedy #1": 2452,
+    "Greedy #2": 2533
+  },
+  "win_rate": {
+    "Color Hunter #1": 0.2451,
+    "Color Hunter #2": 0.2564,
+    "Greedy #1": 0.2452,
+    "Greedy #2": 0.2533
+  },
+  "avg_net_worth": {
+    "Color Hunter #1": 9002.3387,
+    "Color Hunter #2": 9209.5905,
+    "Greedy #1": 9062.9821,
+    "Greedy #2": 9130.8562
+  },
+  "median_net_worth": {
+    "Color Hunter #1": 10326.5,
+    "Color Hunter #2": 10480.0,
+    "Greedy #1": 10383.5,
+    "Greedy #2": 10347.0
+  },
+  "std_net_worth": {
+    "Color Hunter #1": 6987.553098990621,
+    "Color Hunter #2": 7055.368616425446,
+    "Greedy #1": 7050.871623582776,
+    "Greedy #2": 7033.589991102542
+  },
+  "avg_cash": {
+    "Color Hunter #1": 8312.7492,
+    "Color Hunter #2": 8495.3675,
+    "Greedy #1": 8375.7386,
+    "Greedy #2": 8423.8077
+  },
+  "avg_properties": {
+    "Color Hunter #1": 5.6615,
+    "Color Hunter #2": 5.7942,
+    "Greedy #1": 5.6783,
+    "Greedy #2": 5.7898
+  },
+  "bankruptcy_rate": {
+    "Color Hunter #1": 0.2602,
+    "Color Hunter #2": 0.2527,
+    "Greedy #1": 0.2587,
+    "Greedy #2": 0.2519
+  }
+}

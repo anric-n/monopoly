@@ -1,0 +1,63 @@
+{
+  "n_games": 10000,
+  "strategies": [
+    "Cash Aware #1",
+    "Cash Aware #2",
+    "ROI-Based #1",
+    "ROI-Based #2"
+  ],
+  "strategy_map": {
+    "Cash Aware #1": "Cash Aware",
+    "Cash Aware #2": "Cash Aware",
+    "ROI-Based #1": "ROI-Based",
+    "ROI-Based #2": "ROI-Based"
+  },
+  "wins": {
+    "Cash Aware #1": 2596,
+    "Cash Aware #2": 2690,
+    "ROI-Based #1": 2328,
+    "ROI-Based #2": 2386
+  },
+  "win_rate": {
+    "Cash Aware #1": 0.2596,
+    "Cash Aware #2": 0.269,
+    "ROI-Based #1": 0.2328,
+    "ROI-Based #2": 0.2386
+  },
+  "avg_net_worth": {
+    "Cash Aware #1": 9354.5643,
+    "Cash Aware #2": 9510.2012,
+    "ROI-Based #1": 9112.0142,
+    "ROI-Based #2": 9106.6998
+  },
+  "median_net_worth": {
+    "Cash Aware #1": 10587.5,
+    "Cash Aware #2": 10686.0,
+    "ROI-Based #1": 10425.0,
+    "ROI-Based #2": 10294.5
+  },
+  "std_net_worth": {
+    "Cash Aware #1": 7035.840190139599,
+    "Cash Aware #2": 7110.64133540278,
+    "ROI-Based #1": 6997.858513700898,
+    "ROI-Based #2": 6881.574419152103
+  },
+  "avg_cash": {
+    "Cash Aware #1": 8640.2863,
+    "Cash Aware #2": 8782.8067,
+    "ROI-Based #1": 8438.9582,
+    "ROI-Based #2": 8411.6048
+  },
+  "avg_properties": {
+    "Cash Aware #1": 5.8551,
+    "Cash Aware #2": 5.9401,
+    "ROI-Based #1": 5.5951,
+    "ROI-Based #2": 5.7116
+  },
+  "bankruptcy_rate": {
+    "Cash Aware #1": 0.244,
+    "Cash Aware #2": 0.2399,
+    "ROI-Based #1": 0.2542,
+    "ROI-Based #2": 0.2455
+  }
+}
